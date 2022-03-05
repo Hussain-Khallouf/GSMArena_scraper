@@ -44,12 +44,21 @@ def get_mobile_object(mobile_item):
     mobile_object = {'mobile_name':mobile_name,**features}
     return mobile_object
 
-def extract_mobiles_item(brand_page):
-    href = brand.a['href']
-    brand_page_file = requests.get(base_url+href).text
-    brand_page = BeautifulSoup(brand_page_file, 'html5lib')
-    makers_list = brand_page.find('div',class_='makers').ul
-    mobiles = makers_list.find_all('li')
+def extract_mobiles_item(brand):
+    hrefs = []
+    mobiles = []
+    first_brand_page_href=brand.a['href']
+    hrefs.append(first_brand_page_href)
+    home_brand_page = soup_page_object(base_url+first_brand_page_href)
+    nav_pages=home_brand_page.find('div',class_='main').find('div',class_='review-nav').find('div',class_='nav-pages')
+    if nav_pages :
+        all_brand_pages =nav_pages.find_all('a')
+        for a in all_brand_pages:
+            hrefs.append(a['href'])
+    for href in hrefs:
+        brand_page = soup_page_object(base_url+href)
+        makers_list = brand_page.find('div',class_='makers').ul
+        mobiles.extend(makers_list.find_all('li')) 
     return mobiles
 
 
