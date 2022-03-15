@@ -4,6 +4,7 @@ import requests
 import time
 import json
 
+
 base_url = 'https://www.gsmarena.com/'
 
 def soup_page_object(url):
