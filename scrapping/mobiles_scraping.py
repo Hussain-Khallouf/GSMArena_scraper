@@ -37,5 +37,4 @@ def get_mobile_from_db(orm):
 if __name__ == "__main__":
     connection = sqlite3.connect("phony.db")
     orm = PhoneOrm(connection)
-    scrap_and_save(orm)
     get_mobile_from_db(orm)
